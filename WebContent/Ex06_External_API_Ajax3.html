@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	
+	let subwayAPI = "http://openapi.seoul.go.kr:8088/737251747373736f363577544a5665/json/SearchSTNBySubwayLineInfo/1/300/%20/%20/";
+	
+	$(function() {
+		$('#btn').click(function() {
+			
+			let subwayURL = subwayAPI + $('#selectList').val();
+			
+			$.getJSON(subwayURL, function(data) {
+				console.log(data);
+				
+				$('tbody').empty();
+				
+				$.each(data.SearchSTNBySubwayLineInfo.row, function(index, obj) {
+					let subwayInfo = "<tr><td>"+ obj.LINE_NUM +"</td><td>"+ obj.STATION_NM +"</td><td>"+ obj.STATION_NM_ENG +"</td><td>"
+				
+					$("#tbody").append(subwayInfo);
+				});
+					
+			})
+		});
+	});
+	
+	</script>
+</head>
+<body>
+	<form action="">
+	  <label for="subwayName">호선을 선택하세요</label>
+	  <select name="subway" id="selectList">
+			<option value="1호선">1호선</option>
+		    <option value="2호선">2호선</option>
+		    <option value="3호선">3호선</option>
+		    <option value="4호선">4호선</option>
+		    <option value="5호선">5호선</option>
+		    <option value="6호선">6호선</option>
+		    <option value="7호선">7호선</option>
+		    <option value="8호선">8호선</option>
+		    <option value="9호선">9호선</option>
+	  </select>
+	  <br><br>
+	  <input type="button" id="btn" value="확인하기">
+	  <hr>
+	  
+	  <table id="subwayTable" border="1">
+				<thead><tr><td>호선</td><td>역이름</td><td>역이름(영어)</td><td></thead>
+				<tbody id="tbody"></tbody>
+	  </table>
+	</form>
+</body>
+</html>

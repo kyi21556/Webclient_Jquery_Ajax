@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<style type="text/css">
+		table{width: 100%}
+		table,tr,th,td {border: 1px solid; border-collapse: collapse; text-align: center;}
+		th{background-color: lightpink;}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	
+	$(function() {
+		let movieAPI = "http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=f5eef3421c602c6cb7ea224104795888&targetDt=";
+		
+		$('#btn').click(function() {
+			
+			let movieURL = movieAPI + $('#selectDate').val().replace(/-/g, "");
+			
+			$.getJSON(movieURL, function(data) {
+			console.log(data);
+				  
+				  $('#tbody').empty();
+				  
+				  $.each(data.boxOfficeResult.dailyBoxOfficeList, function(index, obj) {
+					  let a = "<tr><td>"+ obj.rank +"</td><td>"+ obj.movieNm +"</td><td>"+ obj.audiCnt +"</td><td>"+ obj.audiAcc +"</td></tr>";
+					  
+					$("#tbody").append(a);
+
+				});
+			});
+		});
+	});
+	
+	
+	</script>
+</head>
+<body>
+	<div id="wrap">
+		<header id="header">
+		<h1>영화순위 조회하기</h1>
+		<p>&nbsp;단, 어제 날짜까지만 조회 가능합니다.</p>
+		</header>
+		<section id="section">
+			<input type="date" id="selectDate">
+			<input type="button" id="btn" value="검색하기">
+		</section>
+		<hr>
+		<article id="article">
+			<table id="movieTable" border="1">
+				<thead><tr><td>랭킹</td><td>영화제목</td><td>당일 관객수</td><td>누적 관객수</td></tr></thead>
+				<tbody id="tbody"></tbody>
+			</table>
+		</article>
+	</div>
+</body>
+</html>
